@@ -33,6 +33,37 @@ svg.logo {
   display: inline-block;
 }
 
+/* buttons */
+.btn {
+  @apply px-4 py-2 rounded font-medium transition-all duration-200;
+  background: var(--color-primary);
+  color: white;
+}
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+
+/* skeleton grid layouts */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.variants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.variant-box {
+  @apply p-4 rounded border border-lighter;
+}
+
 /* generic page styles */
 .page-content {
   @apply my-4 mx-auto w-6xl min-w-2xl max-w-full;
