@@ -2,6 +2,11 @@
 node_modules/
 /.pnp
 .pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # Next.js build output
 /.next/
@@ -20,6 +25,7 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
+.env*
 
 # Logs
 npm-debug.log*
@@ -61,3 +67,10 @@ coverage/
 .env.local
 .env.*.local
 vitest.config.local.*
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel
+.vercel
