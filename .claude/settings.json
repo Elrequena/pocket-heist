@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | jq . > tool-use.json",
+            "statusMessage": "Saving tool input to tool-use.json"
+          },
+          {
+            "type": "command",
+            "command": "fp=$(jq -r '.tool_input.file_path // empty'); [[ \"$fp\" =~ \\.(tsx?)$ ]] && npx prettier --write \"$fp\"",
+            "statusMessage": "Formatting with prettier"
+          }
+        ]
+      }
+    ]
+  }
+}

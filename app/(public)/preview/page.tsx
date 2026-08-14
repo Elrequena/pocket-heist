@@ -1,11 +1,60 @@
 // preview page for newly created UI components
 
 import { Skeleton, SkeletonCard } from "@/components/Skeleton"
+import Avatar from "@/components/Avatar"
 
 export default function PreviewPage() {
   return (
     <div className="page-content">
       <h2>Component Preview</h2>
+
+      <section className="mt-8">
+        <h3>Avatar Component</h3>
+
+        <div className="variants-grid mt-6">
+          <div className="variant-box">
+            <p className="text-sm text-body mb-3">Small (alice)</p>
+            <div className="flex justify-center">
+              <Avatar name="alice" size="sm" />
+            </div>
+          </div>
+
+          <div className="variant-box">
+            <p className="text-sm text-body mb-3">Medium (john)</p>
+            <div className="flex justify-center">
+              <Avatar name="john" size="md" />
+            </div>
+          </div>
+
+          <div className="variant-box">
+            <p className="text-sm text-body mb-3">Large (sarah)</p>
+            <div className="flex justify-center">
+              <Avatar name="sarah" size="lg" />
+            </div>
+          </div>
+
+          <div className="variant-box">
+            <p className="text-sm text-body mb-3">PascalCase (JohnDoe)</p>
+            <div className="flex justify-center">
+              <Avatar name="JohnDoe" size="md" />
+            </div>
+          </div>
+
+          <div className="variant-box">
+            <p className="text-sm text-body mb-3">PascalCase (AliceBrown)</p>
+            <div className="flex justify-center">
+              <Avatar name="AliceBrown" size="md" />
+            </div>
+          </div>
+
+          <div className="variant-box">
+            <p className="text-sm text-body mb-3">Hyphenated (alice-smith)</p>
+            <div className="flex justify-center">
+              <Avatar name="alice-smith" size="md" />
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="mt-8">
         <h3>Skeleton Grid Preview</h3>
