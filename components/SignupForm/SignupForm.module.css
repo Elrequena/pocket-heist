@@ -1,0 +1,37 @@
+@reference "../../app/globals.css";
+
+.form {
+  @apply flex flex-col gap-4 w-full max-w-sm mx-auto;
+}
+
+.field {
+  @apply flex flex-col gap-1;
+}
+
+.label {
+  @apply text-sm font-medium text-body;
+}
+
+.inputWrapper {
+  @apply relative flex items-center;
+}
+
+.input {
+  @apply w-full px-3 py-2 rounded border border-lighter bg-light text-heading;
+}
+
+.input:focus {
+  @apply outline-none border-primary;
+}
+
+.eyeToggle {
+  @apply absolute right-2 bg-transparent border-none cursor-pointer text-body;
+}
+
+.switchText {
+  @apply text-sm text-body text-center;
+}
+
+.link {
+  @apply text-primary underline;
+}
