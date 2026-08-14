@@ -1,0 +1,32 @@
+# Auto detect text files and normalize line endings to CRLF
+* text=auto eol=crlf
+
+# Source code
+*.js text eol=crlf
+*.jsx text eol=crlf
+*.ts text eol=crlf
+*.tsx text eol=crlf
+*.json text eol=crlf
+*.css text eol=crlf
+*.md text eol=crlf
+*.yml text eol=crlf
+*.yaml text eol=crlf
+*.sh text eol=crlf
+
+# Git config files
+.gitignore text eol=crlf
+.gitattributes text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.gz binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
