@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signUpUser, getAuthErrorMessage } from "@/lib/firebase";
 import styles from "./SignupForm.module.css";
 
 export default function SignupForm() {
@@ -11,19 +13,29 @@ export default function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setError("");
+
     if (password !== confirmPassword) {
-      console.error("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
-    console.log({ email, password });
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setShowPassword(false);
-    setShowConfirmPassword(false);
+
+    setLoading(true);
+
+    try {
+      await signUpUser(email, password);
+      router.push("/heists");
+    } catch (err) {
+      setError(getAuthErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -97,8 +109,14 @@ export default function SignupForm() {
         </div>
       </div>
 
-      <button type="submit" className="btn">
-        Sign Up
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
+
+      <button type="submit" className="btn" disabled={loading}>
+        {loading ? "Signing up..." : "Sign Up"}
       </button>
 
       <p className={styles.switchText}>

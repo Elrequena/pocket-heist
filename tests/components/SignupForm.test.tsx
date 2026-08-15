@@ -1,15 +1,28 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import SignupForm from "@/components/SignupForm";
 
-describe("SignupForm", () => {
-  let consoleSpy: ReturnType<typeof vi.spyOn>;
-  let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
+const mockPush = vi.fn();
+const mockSignUpUser = vi.fn();
+const mockGetAuthErrorMessage = vi.fn();
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: mockPush }),
+}));
+
+vi.mock("@/lib/firebase", () => ({
+  signUpUser: (...args: unknown[]) => mockSignUpUser(...args),
+  getAuthErrorMessage: (...args: unknown[]) => mockGetAuthErrorMessage(...args),
+}));
+
+describe("SignupForm", () => {
   beforeEach(() => {
-    consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.clearAllMocks();
+    mockSignUpUser.mockResolvedValue(undefined);
+    mockGetAuthErrorMessage.mockReturnValue(
+      "Something went wrong. Please try again",
+    );
   });
 
   it("renders email, password, and confirm password fields", () => {
@@ -54,7 +67,7 @@ describe("SignupForm", () => {
     expect(confirmInput).toHaveAttribute("type", "text");
   });
 
-  it("logs error when passwords do not match", async () => {
+  it("shows error when passwords do not match", async () => {
     const user = userEvent.setup();
     render(<SignupForm />);
 
@@ -63,11 +76,13 @@ describe("SignupForm", () => {
     await user.type(screen.getByLabelText(/^confirm password$/i), "different");
     await user.click(screen.getByRole("button", { name: /sign up/i }));
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Passwords do not match");
-    expect(consoleSpy).not.toHaveBeenCalled();
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Passwords do not match",
+    );
+    expect(mockSignUpUser).not.toHaveBeenCalled();
   });
 
-  it("logs form data when passwords match", async () => {
+  it("calls signUpUser and redirects on success", async () => {
     const user = userEvent.setup();
     render(<SignupForm />);
 
@@ -76,13 +91,17 @@ describe("SignupForm", () => {
     await user.type(screen.getByLabelText(/^confirm password$/i), "secret123");
     await user.click(screen.getByRole("button", { name: /sign up/i }));
 
-    expect(consoleSpy).toHaveBeenCalledWith({
-      email: "test@example.com",
-      password: "secret123",
+    await waitFor(() => {
+      expect(mockSignUpUser).toHaveBeenCalledWith(
+        "test@example.com",
+        "secret123",
+      );
+      expect(mockPush).toHaveBeenCalledWith("/heists");
     });
   });
 
-  it("clears all fields after successful submission", async () => {
+  it("shows loading state during signup", async () => {
+    mockSignUpUser.mockReturnValue(new Promise(() => {}));
     const user = userEvent.setup();
     render(<SignupForm />);
 
@@ -91,9 +110,47 @@ describe("SignupForm", () => {
     await user.type(screen.getByLabelText(/^confirm password$/i), "secret123");
     await user.click(screen.getByRole("button", { name: /sign up/i }));
 
-    expect(screen.getByLabelText(/email/i)).toHaveValue("");
-    expect(screen.getByLabelText(/^password$/i)).toHaveValue("");
-    expect(screen.getByLabelText(/^confirm password$/i)).toHaveValue("");
+    const button = screen.getByRole("button", { name: /signing up/i });
+    expect(button).toBeDisabled();
+  });
+
+  it("shows error message on signup failure", async () => {
+    mockSignUpUser.mockRejectedValue({ code: "auth/email-already-in-use" });
+    mockGetAuthErrorMessage.mockReturnValue(
+      "An account with this email already exists",
+    );
+    const user = userEvent.setup();
+    render(<SignupForm />);
+
+    await user.type(screen.getByLabelText(/email/i), "test@example.com");
+    await user.type(screen.getByLabelText(/^password$/i), "secret123");
+    await user.type(screen.getByLabelText(/^confirm password$/i), "secret123");
+    await user.click(screen.getByRole("button", { name: /sign up/i }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "An account with this email already exists",
+      );
+    });
+  });
+
+  it("preserves field values on error", async () => {
+    mockSignUpUser.mockRejectedValue({ code: "auth/weak-password" });
+    const user = userEvent.setup();
+    render(<SignupForm />);
+
+    await user.type(screen.getByLabelText(/email/i), "test@example.com");
+    await user.type(screen.getByLabelText(/^password$/i), "short");
+    await user.type(screen.getByLabelText(/^confirm password$/i), "short");
+    await user.click(screen.getByRole("button", { name: /sign up/i }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
+
+    expect(screen.getByLabelText(/email/i)).toHaveValue("test@example.com");
+    expect(screen.getByLabelText(/^password$/i)).toHaveValue("short");
+    expect(screen.getByLabelText(/^confirm password$/i)).toHaveValue("short");
   });
 
   it("renders a link to the login page", () => {
