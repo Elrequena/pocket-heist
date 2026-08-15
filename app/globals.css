@@ -35,13 +35,15 @@ svg.logo {
 
 /* buttons */
 .btn {
-  @apply px-4 py-2 rounded font-medium transition-all duration-200;
-  background: var(--color-primary);
+  @apply px-6 py-3 rounded-2xl font-medium transition-all duration-200 flex items-center gap-2;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   color: white;
+  box-shadow: 0 8px 24px rgba(193, 122, 255, 0.4);
 }
 .btn:hover {
-  opacity: 0.9;
+  opacity: 0.95;
   transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(193, 122, 255, 0.5);
 }
 .btn:active {
   transform: translateY(0);

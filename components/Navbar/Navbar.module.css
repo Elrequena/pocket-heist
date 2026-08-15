@@ -15,3 +15,7 @@
 svg.logo {
   display: inline-block;
 }
+
+.brandLink {
+  @apply text-heading no-underline hover:opacity-80 transition-opacity duration-200;
+}

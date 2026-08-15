@@ -46,14 +46,14 @@ The app uses **Route Groups** to separate public and protected routes:
 app/
 ├── (public)/              # Unauthenticated routes
 │   ├── page.tsx          # Splash/home page
-│   ├── login/            # Login form page
-│   ├── signup/           # Signup form page
+│   ├── login/
+│   ├── signup/
 │   └── preview/          # Component preview sandbox
 ├── (dashboard)/          # Protected dashboard (includes Navbar)
 │   └── heists/
 │       ├── page.tsx      # List all heists
 │       ├── create/       # Create new heist form
-│       └── [id]/         # Individual heist details page
+│       └── [id]/         # Individual heist details
 ├── layout.tsx            # Root layout
 └── globals.css           # Global styles + Tailwind
 ```
@@ -64,41 +64,31 @@ app/
 
 ```
 components/
-├── Avatar/
-│   ├── Avatar.tsx
-│   ├── Avatar.module.css
-│   └── index.ts
-├── Navbar/
-│   ├── Navbar.tsx
-│   ├── Navbar.module.css
-│   └── index.ts
-├── LoginForm/
-├── SignupForm/
-├── Skeleton/
-└── [other components]
+└── Navbar/
+    ├── Navbar.tsx        # Component logic
+    ├── Navbar.module.css # Scoped styles (CSS Modules)
+    └── index.ts          # Barrel export
 ```
 
-**Style Strategy:** Mix Tailwind utility classes with CSS Modules for component-scoped styling. Use CSS Modules only when utility-first approach is insufficient (prefer `@apply` for combining multiple classes).
+**Style Strategy:** Mix Tailwind utility classes with CSS Modules for component-scoped styling. Use CSS Modules only when utility-first approach is insufficient.
 
 ### Testing Pattern
 
 ```
 tests/
 └── components/
-    ├── Navbar.test.tsx
-    └── [other component tests]
+    └── Navbar.test.tsx
 ```
 
 Tests use **React Testing Library** with accessibility-first queries:
 - `screen.getByRole()` - preferred for semantic queries
 - `screen.getByText()` - when role doesn't work
 - Avoid testing implementation details, focus on user behavior
-- Use `screen.debug()` to inspect rendered output in failing tests
 
 ## Important Configuration Details
 
 ### Path Aliases
-- `@/*` resolves to project root for clean imports (configured in `tsconfig.json`)
+- `@/*` resolves to project root for clean imports
 
 ### Styling
 
@@ -113,20 +103,14 @@ Tests use **React Testing Library** with accessibility-first queries:
 - Strict mode enabled
 - Target: ES2017
 - Module: ESNext
-- Vitest globals enabled (no need to import `describe`, `it`, `expect`, etc.)
-
-### Auto-formatting
-- Prettier runs automatically on TypeScript/TSX file saves (configured in `.claude/settings.json`)
-- ESLint configuration uses Next.js recommended rules for Web Vitals and TypeScript
 
 ## Development Workflow Notes
 
 1. **Adding a new page**: Create a folder in `app/(dashboard)/` or `app/(public)/` with `page.tsx`
-2. **Adding a component**: Create folder in `components/` with `.tsx`, `.module.css`, and `index.ts` (barrel export)
-3. **Styling**: Start with Tailwind utilities; if you need more than one class on an element, use `@apply` in a CSS Module
-4. **Testing**: Write tests in `tests/components/` mirroring the `components/` structure
+2. **Adding a component**: Create folder in `components/` with `.tsx`, `.module.css`, and `index.ts`
+3. **Styling**: Start with Tailwind utilities, use CSS Modules only for complex scoped styles
+4. **Testing**: Write tests in `tests/` mirroring the `components/` structure
 5. **Dynamic routes**: Use `[paramName]` folder syntax for dynamic segments like `/heists/[id]`
-6. **Barrel exports**: Always create `index.ts` files in component folders for clean imports
 
 ## Key Architectural Decisions
 
@@ -134,9 +118,8 @@ Tests use **React Testing Library** with accessibility-first queries:
 - **CSS Modules + Tailwind**: Prevents global CSS conflicts while maintaining rapid development
 - **Vitest over Jest**: Faster test execution and better ESM support for modern projects
 - **React 19**: Latest React features available (Server Components ready)
-- **Barrel exports**: Simplifies import paths and improves code organization
 
-## Common Development Tasks
+## Common Tasks
 
 ### Running the app in development
 ```bash
@@ -148,45 +131,27 @@ The app loads at `http://localhost:3000`. Hot module reloading is enabled.
 1. Create `app/(dashboard)/[route-name]/page.tsx`
 2. It automatically inherits the dashboard layout with Navbar
 
-### Creating a new component
-1. Create folder: `components/ComponentName/`
-2. Create files:
-   - `ComponentName.tsx` - component logic
-   - `ComponentName.module.css` - scoped styles
-   - `index.ts` - barrel export: `export { default } from './ComponentName'`
-3. Import in other files: `import ComponentName from '@/components/ComponentName'`
-
 ### Testing a component
 ```bash
 npm run test -- ComponentName.test
-npm run test -- --ui        # Visual test runner with dashboard
-npm run test -- --watch     # Re-run tests on file changes
-npm run test -- --coverage  # Generate coverage report
+npm run test -- --ui  # Visual test runner
 ```
 
 ### Debugging styles
-- Check `app/globals.css` for global Tailwind config
+- Check `globals.css` for global Tailwind config
 - Check `ComponentName.module.css` for component-specific styles
 - Use browser DevTools to inspect computed Tailwind classes
-- Remember: don't use Tailwind classes directly in JSX unless essential (1 class max); use CSS Modules instead
 
 ## Debugging & Troubleshooting
 
-- **Import not working**: Verify path alias in `tsconfig.json` (`@/*`); restart dev server if needed
-- **Style not applied**: Check that Tailwind glob patterns include your file; verify CSS Module is imported correctly
-- **Test failing**: Use `screen.debug()` or `screen.logTestingPlaygroundURL()` in tests to understand the rendered output
+- **Import not working**: Check path alias in `tsconfig.json` (`@/*`)
+- **Style not applied**: Verify Tailwind purge includes the file pattern; check CSS Module scoping
+- **Test failing**: Use `screen.debug()` in tests to see rendered output; check accessibility tree with `screen.logTestingPlaygroundURL()`
 - **Build errors**: Run `npm run lint` to catch TypeScript/ESLint issues before building
-- **Component not appearing**: Check that route is in correct folder (`(public)` or `(dashboard)`); verify layout inheritance
 
-## Coding Preferences & Standards
+## Additional Coding Preferences
 
-- **No semicolons** for JavaScript or TypeScript code
-- **Tailwind classes in JSX**: Use at most 1 class inline; if an element needs more than one, combine them into a custom class using the `@apply` directive in CSS Modules
-- **Minimal dependencies**: Prefer built-in solutions; add packages only when necessary
-- **Branch management**: Use `git switch -c branch-name` instead of `git checkout -b`
-- **Component organization**: Always use barrel exports (`index.ts`) for cleaner imports
-- **Accessibility first**: Write tests using semantic queries (`getByRole`, `getByText`), focusing on user interactions rather than implementation details
-
-## Checking Documentation
-
-- **important** When implementing any lib/framework-specific features, ALWAYS check the appropiate lib/framework documentation using the Context7 MCP server before writing any code.
+- Do NOT use semicolons for JavaScript or TypeScript code.
+- Do NOT apply tailwind classes directly in component templates unless essential or just 1 at most. If an element needs more than a single tailwind class, combine them into a custom class using the `@apply` directive.
+- Use minimal project dependencies where possible.
+- Use the `git switch -c` command to switch to new branches, not `git checkout`.
