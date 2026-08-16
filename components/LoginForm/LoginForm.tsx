@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import styles from "./LoginForm.module.css";
@@ -8,12 +9,24 @@ import { loginUser, getLoginAuthErrorMessage } from "@/lib/firebase/login";
 import SuccessMessage from "@/components/SuccessMessage";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  useEffect(() => {
+    if (showSuccessMessage) {
+      // Redirect to /heists after showing success message for 300ms
+      const timer = setTimeout(() => {
+        router.push("/heists");
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessMessage, router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
