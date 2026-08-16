@@ -35,3 +35,7 @@
 .link {
   @apply text-primary underline;
 }
+
+.error {
+  @apply text-sm text-error text-center;
+}

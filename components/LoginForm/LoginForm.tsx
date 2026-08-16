@@ -4,15 +4,34 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import styles from "./LoginForm.module.css";
+import { loginUser, getLoginAuthErrorMessage } from "@/lib/firebase/login";
+import SuccessMessage from "@/components/SuccessMessage";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log({ email, password });
+    setError("");
+    setLoading(true);
+
+    try {
+      await loginUser(email, password);
+      setShowSuccessMessage(true);
+    } catch (err) {
+      setError(getLoginAuthErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleCloseSuccess() {
+    setShowSuccessMessage(false);
     setEmail("");
     setPassword("");
     setShowPassword(false);
@@ -60,9 +79,15 @@ export default function LoginForm() {
         </div>
       </div>
 
-      <button type="submit" className="btn">
-        Login
+      <button type="submit" className="btn" disabled={loading}>
+        {loading ? "Logging in..." : "Log In"}
       </button>
+
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
 
       <p className={styles.switchText}>
         Don&apos;t have an account?{" "}
@@ -70,6 +95,13 @@ export default function LoginForm() {
           Sign up
         </Link>
       </p>
+
+      {showSuccessMessage && (
+        <SuccessMessage
+          message="You've successfully logged in!"
+          onClose={handleCloseSuccess}
+        />
+      )}
     </form>
   );
 }

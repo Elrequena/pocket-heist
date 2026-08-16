@@ -45,10 +45,10 @@ No Figma design referenced for this feature.
 
 ## Open questions
 
-- How should the success message be dismissed? (auto-dismiss, manual close button, or persistent?)
-- What error messages should be shown for different Firebase error codes?
-- Should the success message appear inline on the form or in a separate toast/modal?
-- Should form fields be cleared after successful login?
+- How should the success message be dismissed? (auto-dismiss, manual close button, or persistent?) manual close button.
+- What error messages should be shown for different Firebase error codes? only error by credentials.
+- Should the success message appear inline on the form or in a separate toast/modal? separated.
+- Should form fields be cleared after successful login? Yes.
 
 ## Testing Guidelines
 

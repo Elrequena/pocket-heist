@@ -1,45 +1,54 @@
 {
-  "session_id": "ff3e9563-22cd-48fd-8ae6-e222bd26bdf1",
-  "transcript_path": "C:\\Users\\elreq\\.claude\\projects\\C--Users-elreq-Jesus-R-Proyectos-Claude-Code-Masterclass\\ff3e9563-22cd-48fd-8ae6-e222bd26bdf1.jsonl",
+  "session_id": "87bf7e55-f1a3-4c67-99f2-90c13badc6d5",
+  "transcript_path": "C:\\Users\\elreq\\.claude\\projects\\C--Users-elreq-Jesus-R-Proyectos-Claude-Code-Masterclass\\87bf7e55-f1a3-4c67-99f2-90c13badc6d5.jsonl",
   "cwd": "C:\\Users\\elreq\\Jesus R\\Proyectos\\Claude-Code-Masterclass",
-  "prompt_id": "ea22d0dd-f1ad-4e47-8a98-05581098b297",
+  "prompt_id": "063be224-a3a1-4da2-8472-7016a5d7f2ff",
   "permission_mode": "bypassPermissions",
   "hook_event_name": "PostToolUse",
   "tool_name": "Edit",
   "tool_input": {
-    "file_path": "C:\\Users\\elreq\\Jesus R\\Proyectos\\Claude-Code-Masterclass\\components\\Navbar\\Navbar.module.css",
-    "old_string": ".siteNav nav {\n  @apply mx-auto max-w-6xl flex justify-between items-center;\n}",
-    "new_string": ".siteNav nav {\n  @apply mx-auto max-w-6xl flex justify-between items-center;\n}\n\n.siteNav ul {\n  @apply flex items-center gap-4;\n}",
+    "file_path": "C:\\Users\\elreq\\Jesus R\\Proyectos\\Claude-Code-Masterclass\\components\\SuccessMessage\\SuccessMessage.module.css",
+    "old_string": "@reference \"../../app/globals.css\";\n\n.overlay {\n  @apply fixed inset-0 flex items-center justify-center bg-black/50 z-50;\n}\n\n.container {\n  @apply bg-light rounded-lg shadow-lg p-6 max-w-sm w-full mx-4 flex flex-col gap-4;\n}\n\n.message {\n  @apply text-base font-medium text-success text-center;\n}\n\n.button {\n  @apply btn bg-success text-light hover:bg-success/90;\n}",
+    "new_string": "@reference \"../../app/globals.css\";\n\n.overlay {\n  @apply fixed inset-0 flex items-center justify-center bg-black/50 z-50;\n}\n\n.container {\n  @apply bg-light rounded-lg shadow-lg p-6 max-w-sm w-full mx-4 flex flex-col gap-4;\n}\n\n.message {\n  @apply text-base font-medium text-success text-center;\n}\n\n.button {\n  @apply px-6 py-3 rounded-2xl font-medium transition-all duration-200 flex items-center justify-center;\n  background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success) 100%);\n  color: white;\n  box-shadow: 0 8px 24px rgba(5, 223, 114, 0.4);\n}\n\n.button:hover {\n  opacity: 0.95;\n  transform: translateY(-2px);\n  box-shadow: 0 12px 32px rgba(5, 223, 114, 0.5);\n}\n\n.button:active {\n  transform: translateY(0);\n}",
     "replace_all": false
   },
   "tool_response": {
-    "filePath": "C:\\Users\\elreq\\Jesus R\\Proyectos\\Claude-Code-Masterclass\\components\\Navbar\\Navbar.module.css",
-    "oldString": ".siteNav nav {\n  @apply mx-auto max-w-6xl flex justify-between items-center;\n}",
-    "newString": ".siteNav nav {\n  @apply mx-auto max-w-6xl flex justify-between items-center;\n}\n\n.siteNav ul {\n  @apply flex items-center gap-4;\n}",
-    "originalFile": "@reference \"../../app/globals.css\";\n\n.siteNav {\n  @apply bg-light px-2 py-4;\n}\n\n.siteNav nav {\n  @apply mx-auto max-w-6xl flex justify-between items-center;\n}\n\n.siteNav h1 {\n  @apply font-bold text-xl;\n}\n\nsvg.logo {\n  display: inline-block;\n}\n\n.brandLink {\n  @apply text-heading no-underline hover:opacity-80 transition-opacity duration-200;\n}\n\n.btnOutline {\n  @apply px-6 py-3 rounded-2xl font-medium transition-all duration-200 cursor-pointer;\n  background: transparent;\n  color: white;\n  border: 1px solid white;\n}\n\n.btnOutline:hover {\n  @apply bg-white/10;\n}",
+    "filePath": "C:\\Users\\elreq\\Jesus R\\Proyectos\\Claude-Code-Masterclass\\components\\SuccessMessage\\SuccessMessage.module.css",
+    "oldString": "@reference \"../../app/globals.css\";\n\n.overlay {\n  @apply fixed inset-0 flex items-center justify-center bg-black/50 z-50;\n}\n\n.container {\n  @apply bg-light rounded-lg shadow-lg p-6 max-w-sm w-full mx-4 flex flex-col gap-4;\n}\n\n.message {\n  @apply text-base font-medium text-success text-center;\n}\n\n.button {\n  @apply btn bg-success text-light hover:bg-success/90;\n}",
+    "newString": "@reference \"../../app/globals.css\";\n\n.overlay {\n  @apply fixed inset-0 flex items-center justify-center bg-black/50 z-50;\n}\n\n.container {\n  @apply bg-light rounded-lg shadow-lg p-6 max-w-sm w-full mx-4 flex flex-col gap-4;\n}\n\n.message {\n  @apply text-base font-medium text-success text-center;\n}\n\n.button {\n  @apply px-6 py-3 rounded-2xl font-medium transition-all duration-200 flex items-center justify-center;\n  background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success) 100%);\n  color: white;\n  box-shadow: 0 8px 24px rgba(5, 223, 114, 0.4);\n}\n\n.button:hover {\n  opacity: 0.95;\n  transform: translateY(-2px);\n  box-shadow: 0 12px 32px rgba(5, 223, 114, 0.5);\n}\n\n.button:active {\n  transform: translateY(0);\n}",
+    "originalFile": "@reference \"../../app/globals.css\";\n\n.overlay {\n  @apply fixed inset-0 flex items-center justify-center bg-black/50 z-50;\n}\n\n.container {\n  @apply bg-light rounded-lg shadow-lg p-6 max-w-sm w-full mx-4 flex flex-col gap-4;\n}\n\n.message {\n  @apply text-base font-medium text-success text-center;\n}\n\n.button {\n  @apply btn bg-success text-light hover:bg-success/90;\n}\n",
     "structuredPatch": [
       {
-        "oldStart": 8,
-        "oldLines": 6,
-        "newStart": 8,
-        "newLines": 10,
+        "oldStart": 13,
+        "oldLines": 5,
+        "newStart": 13,
+        "newLines": 18,
         "lines": [
-          "   @apply mx-auto max-w-6xl flex justify-between items-center;",
           " }",
           " ",
-          "+.siteNav ul {",
-          "+  @apply flex items-center gap-4;",
+          " .button {",
+          "-  @apply btn bg-success text-light hover:bg-success/90;",
+          "+  @apply px-6 py-3 rounded-2xl font-medium transition-all duration-200 flex items-center justify-center;",
+          "+  background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success) 100%);",
+          "+  color: white;",
+          "+  box-shadow: 0 8px 24px rgba(5, 223, 114, 0.4);",
+          " }",
+          "+",
+          "+.button:hover {",
+          "+  opacity: 0.95;",
+          "+  transform: translateY(-2px);",
+          "+  box-shadow: 0 12px 32px rgba(5, 223, 114, 0.5);",
           "+}",
           "+",
-          " .siteNav h1 {",
-          "   @apply font-bold text-xl;",
-          " }"
+          "+.button:active {",
+          "+  transform: translateY(0);",
+          "+}"
         ]
       }
     ],
     "userModified": false,
     "replaceAll": false
   },
-  "tool_use_id": "toolu_01YcMcfUh9Fdxjq6gZUsbJYt",
-  "duration_ms": 13
+  "tool_use_id": "toolu_01KhtrGvcigD4WhhLzqN3J2k",
+  "duration_ms": 11
 }
