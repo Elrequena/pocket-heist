@@ -1,7 +1,7 @@
 "use client";
 
 import { Clock } from "lucide-react";
-import Skeleton from "@/components/Skeleton";
+import { Skeleton } from "@/components/Skeleton";
 import styles from "./AuthLoadingScreen.module.css";
 
 interface AuthLoadingScreenProps {
