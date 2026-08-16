@@ -19,3 +19,14 @@ svg.logo {
 .brandLink {
   @apply text-heading no-underline hover:opacity-80 transition-opacity duration-200;
 }
+
+.btnOutline {
+  @apply px-6 py-3 rounded-2xl font-medium transition-all duration-200 cursor-pointer;
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.btnOutline:hover {
+  @apply bg-white/10;
+}
