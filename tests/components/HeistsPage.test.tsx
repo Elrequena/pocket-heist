@@ -20,7 +20,6 @@ import HeistsPage from "@/app/(dashboard)/heists/page";
 function mockHeistsReturn({
   active = { heists: [], loading: false },
   assigned = { heists: [], loading: false },
-  expired = { heists: [], loading: false },
 } = {}) {
   mockUseHeists.mockImplementation((filter: string) => {
     switch (filter) {
@@ -28,12 +27,25 @@ function mockHeistsReturn({
         return active;
       case "assigned":
         return assigned;
-      case "expired":
-        return expired;
       default:
         return { heists: [], loading: false };
     }
   });
+}
+
+function createMockHeist(id: string, title: string) {
+  return {
+    id,
+    title,
+    description: "Test description",
+    createdBy: "uid1",
+    createdByCodename: "Creator",
+    assignedTo: "uid2",
+    assignedToCodename: "Assignee",
+    deadline: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    finalStatus: null,
+    createdAt: new Date(),
+  };
 }
 
 describe("HeistsPage", () => {
@@ -42,61 +54,54 @@ describe("HeistsPage", () => {
     mockHeistsReturn();
   });
 
-  it("renders all three section headings", () => {
+  it("renders active and assigned section headings", () => {
     render(<HeistsPage />);
 
     expect(
-      screen.getByRole("heading", { name: /your active heists/i }),
+      screen.getByRole("heading", { name: /active heists/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: /heists you've assigned/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: /all expired heists/i }),
+      screen.getByRole("heading", { name: /assigned heists/i }),
     ).toBeInTheDocument();
   });
 
-  it("calls useHeists with correct filter strings", () => {
+  it("does not render an expired heists section", () => {
+    render(<HeistsPage />);
+
+    expect(
+      screen.queryByRole("heading", { name: /expired/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("calls useHeists with active and assigned filters only", () => {
     render(<HeistsPage />);
 
     expect(mockUseHeists).toHaveBeenCalledWith("active");
     expect(mockUseHeists).toHaveBeenCalledWith("assigned");
-    expect(mockUseHeists).toHaveBeenCalledWith("expired");
+    expect(mockUseHeists).not.toHaveBeenCalledWith("expired");
   });
 
-  it("shows loading state when data is loading", () => {
-    mockHeistsReturn({
-      active: { heists: [], loading: true },
-      assigned: { heists: [], loading: true },
-      expired: { heists: [], loading: true },
-    });
-
-    render(<HeistsPage />);
-
-    expect(screen.queryByRole("list")).not.toBeInTheDocument();
-  });
-
-  it("renders heist titles in each section", () => {
+  it("renders heist cards with links when data is loaded", () => {
     mockHeistsReturn({
       active: {
-        heists: [{ id: "h1", title: "Active Mission" }],
+        heists: [createMockHeist("h1", "Active Mission")],
         loading: false,
       },
       assigned: {
-        heists: [{ id: "h2", title: "Assigned Mission" }],
-        loading: false,
-      },
-      expired: {
-        heists: [{ id: "h3", title: "Expired Mission" }],
+        heists: [createMockHeist("h2", "Assigned Mission")],
         loading: false,
       },
     });
 
     render(<HeistsPage />);
 
-    expect(screen.getByText("Active Mission")).toBeInTheDocument();
-    expect(screen.getByText("Assigned Mission")).toBeInTheDocument();
-    expect(screen.getByText("Expired Mission")).toBeInTheDocument();
+    const activeLink = screen.getByRole("link", { name: /active mission/i });
+    expect(activeLink).toHaveAttribute("href", "/heists/h1");
+
+    const assignedLink = screen.getByRole("link", {
+      name: /assigned mission/i,
+    });
+    expect(assignedLink).toHaveAttribute("href", "/heists/h2");
   });
 
   it("shows empty state messages when no heists exist", () => {
@@ -109,6 +114,5 @@ describe("HeistsPage", () => {
     expect(
       screen.getByText(/you haven't assigned any heists yet/i),
     ).toBeInTheDocument();
-    expect(screen.getByText(/no expired heists found/i)).toBeInTheDocument();
   });
 });

@@ -1,0 +1,86 @@
+@reference "../../app/globals.css";
+
+.card {
+  @apply flex flex-col gap-3 p-4 rounded-lg border border-lighter;
+  background: var(--color-light);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.card:hover,
+.card:focus-within {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.header {
+  @apply flex items-start justify-between gap-2;
+}
+
+.title {
+  @apply text-heading font-bold text-sm no-underline;
+}
+
+.title:hover {
+  @apply underline;
+}
+
+.clockIcon {
+  color: var(--color-body);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.row {
+  @apply flex items-center gap-2 text-sm;
+}
+
+.icon {
+  color: var(--color-body);
+  flex-shrink: 0;
+}
+
+.label {
+  color: var(--color-body);
+}
+
+.assignee {
+  color: var(--color-primary);
+  @apply font-medium;
+}
+
+.creator {
+  color: var(--color-secondary);
+  @apply font-medium;
+}
+
+.deadlineText {
+  color: var(--color-body);
+}
+
+.separator {
+  color: var(--color-body);
+}
+
+.timeRemaining {
+  color: var(--color-heading);
+  @apply font-medium;
+}
+
+.overdue {
+  color: var(--color-error);
+  @apply font-bold;
+}
+
+/* Skeleton card */
+.skeletonCard {
+  @apply flex flex-col gap-3 p-4 rounded-lg border border-lighter;
+  background: var(--color-light);
+}
+
+.skeletonHeader {
+  @apply flex items-center justify-between;
+}
+
+.skeletonRows {
+  @apply flex flex-col gap-2;
+}

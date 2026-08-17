@@ -56,6 +56,23 @@ svg.logo {
   gap: 16px;
 }
 
+/* heist card grid — explicit 3/2/1 responsive columns */
+.heist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 1024px) {
+  .heist-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .heist-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .variants-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

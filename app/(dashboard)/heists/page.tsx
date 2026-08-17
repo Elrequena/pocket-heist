@@ -1,38 +1,43 @@
 "use client";
 
+import { Clock, Target } from "lucide-react";
 import { useHeists } from "@/hooks";
-import { Skeleton } from "@/components/Skeleton";
+import { HeistCard, HeistCardSkeleton } from "@/components/HeistCard";
+import type { Heist } from "@/types/firestore";
 
 function HeistSection({
   title,
+  icon,
   heists,
   loading,
   emptyMessage,
 }: {
   title: string;
-  heists: { id: string; title: string }[];
+  icon: React.ReactNode;
+  heists: Heist[];
   loading: boolean;
   emptyMessage: string;
 }) {
   return (
-    <section className="flex flex-col gap-3">
-      <h2 className="text-lg font-semibold text-white">{title}</h2>
+    <section className="flex flex-col gap-4">
+      <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        {icon}
+        {title}
+      </h2>
       {loading ? (
-        <div className="flex flex-col gap-2">
-          <Skeleton width="100%" height="20px" />
-          <Skeleton width="80%" height="20px" />
-          <Skeleton width="60%" height="20px" />
+        <div className="heist-grid">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <HeistCardSkeleton key={i} />
+          ))}
         </div>
       ) : heists.length === 0 ? (
-        <p className="text-sm text-gray-500 italic">{emptyMessage}</p>
+        <p className="text-sm text-body italic">{emptyMessage}</p>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <div className="heist-grid">
           {heists.map((heist) => (
-            <li key={heist.id} className="text-sm text-body">
-              {heist.title}
-            </li>
+            <HeistCard key={heist.id} heist={heist} />
           ))}
-        </ul>
+        </div>
       )}
     </section>
   );
@@ -42,28 +47,22 @@ export default function HeistsPage() {
   const { heists: activeHeists, loading: activeLoading } = useHeists("active");
   const { heists: assignedHeists, loading: assignedLoading } =
     useHeists("assigned");
-  const { heists: expiredHeists, loading: expiredLoading } =
-    useHeists("expired");
 
   return (
     <div className="flex flex-col gap-8 p-6">
       <HeistSection
-        title="Your Active Heists"
+        title="Active Heists"
+        icon={<Clock size={20} />}
         heists={activeHeists}
         loading={activeLoading}
         emptyMessage="No active heists assigned to you."
       />
       <HeistSection
-        title="Heists You've Assigned"
+        title="Assigned Heists"
+        icon={<Target size={20} />}
         heists={assignedHeists}
         loading={assignedLoading}
         emptyMessage="You haven't assigned any heists yet."
-      />
-      <HeistSection
-        title="All Expired Heists"
-        heists={expiredHeists}
-        loading={expiredLoading}
-        emptyMessage="No expired heists found."
       />
     </div>
   );
