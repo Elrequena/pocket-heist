@@ -1,0 +1,272 @@
+.splashContainer {
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.heroSection {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1rem;
+  background: linear-gradient(
+    135deg,
+    var(--color-dark) 0%,
+    var(--color-light) 50%,
+    var(--color-dark) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+/* Accent line decoration */
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary),
+    transparent
+  );
+}
+
+.heroContent {
+  max-width: 48rem;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+.heroEyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+
+.heroTitle {
+  font-size: 3.75rem;
+  font-weight: 900;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.heroSubtitle {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  margin-bottom: 3rem;
+  color: var(--color-body);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.ctaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+@media (min-width: 640px) {
+  .ctaGroup {
+    flex-direction: row;
+  }
+}
+
+.ctaGroup > :first-child {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+.secondaryLink {
+  color: var(--color-body);
+  text-decoration: underline;
+  text-decoration-offset: 4px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.secondaryLink:hover {
+  color: var(--color-primary);
+}
+
+/* Briefing Section */
+.briefingSection {
+  padding: 6rem 1rem;
+  background: var(--color-dark);
+  border-top: 1px solid var(--color-lighter);
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 4rem;
+  color: var(--color-heading);
+}
+
+@media (min-width: 768px) {
+  .sectionTitle {
+    font-size: 2.25rem;
+  }
+}
+
+.briefingGrid {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .briefingGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.briefingCard {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-lighter);
+  background: var(--color-light);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.briefingCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary),
+    transparent
+  );
+}
+
+.briefingCard:hover {
+  border-color: var(--color-primary);
+  background: linear-gradient(
+    135deg,
+    var(--color-light),
+    color-mix(in srgb, var(--color-primary) 5%, var(--color-light))
+  );
+  transform: translateY(-4px);
+}
+
+.cardCode {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--color-heading);
+}
+
+.cardDescription {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-body);
+}
+
+/* Trust Section */
+.trustSection {
+  padding: 4rem 1rem;
+  background: var(--color-light);
+  border-top: 1px solid var(--color-lighter);
+  text-align: center;
+}
+
+.trustText {
+  color: var(--color-body);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .trustText {
+    font-size: 0.875rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .heroSection {
+    min-height: auto;
+    padding: 3rem 1rem;
+  }
+
+  .heroTitle {
+    font-size: 2.25rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .briefingCard {
+    padding: 1.25rem;
+  }
+
+  .cardTitle {
+    font-size: 1.125rem;
+  }
+}
